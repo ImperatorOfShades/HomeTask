@@ -454,6 +454,30 @@ namespace Praktica
 
         }
 
+        private void technicalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bindingSource1.DataSource = null;
+            dataGridView1.DataSource = null;
+            bindingSource1.DataSource = URL_T;
+            dataGridView1.DataSource = bindingSource1;
+        }
+
+        private void economicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bindingSource1.DataSource = null;
+            dataGridView1.DataSource = null;
+            bindingSource1.DataSource = URL_E;
+            dataGridView1.DataSource = bindingSource1;
+        }
+
+        private void allToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bindingSource1.DataSource = null;
+            dataGridView1.DataSource = null;
+            bindingSource1.DataSource = URL;
+            dataGridView1.DataSource = bindingSource1;
+        }
+
        
 
    
