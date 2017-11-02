@@ -22,6 +22,7 @@ namespace Praktica
         List<Technical_Project> URL_T = new List<Technical_Project>();
         List<Econom_Project> URL_E = new List<Econom_Project>();
         Form2 Dialog = new Form2();
+        string type_project = "all";
         public static int NRec;
         bool sortasc;
         bool first = true;
@@ -460,6 +461,7 @@ namespace Praktica
             dataGridView1.DataSource = null;
             bindingSource1.DataSource = URL_T;
             dataGridView1.DataSource = bindingSource1;
+            type_project = "t";
         }
 
         private void economicToolStripMenuItem_Click(object sender, EventArgs e)
@@ -468,6 +470,7 @@ namespace Praktica
             dataGridView1.DataSource = null;
             bindingSource1.DataSource = URL_E;
             dataGridView1.DataSource = bindingSource1;
+            type_project = "e";
         }
 
         private void allToolStripMenuItem_Click(object sender, EventArgs e)
@@ -476,6 +479,92 @@ namespace Praktica
             dataGridView1.DataSource = null;
             bindingSource1.DataSource = URL;
             dataGridView1.DataSource = bindingSource1;
+            type_project = "all";
+            
+        }
+
+        private void dataGridView1_EditingControlShowing(object sender,   e)
+        {
+            TextBox tb = (TextBox)e.Control;
+            switch (type_project)
+            {
+                case "t": 
+                    {
+                        switch (dataGridView1.SelectedCells[0].ColumnIndex)
+                        {
+                            case 0: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 1: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 5: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 6: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 2: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 3: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 9: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 10: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 11: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 4: break;
+                            case 7: break;
+                            case 8: break;
+                        }
+                        break; 
+                    }
+                case "e":
+                    {
+                        switch (dataGridView1.SelectedCells[0].ColumnIndex)
+                        {
+                            case 1: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 4: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 5: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 8: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 9: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 10: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 2: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 3: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 6: break;
+                            case 7: break;
+                        }
+                        break;
+                    }
+                case "all":
+                    {
+                        switch (dataGridView1.SelectedCells[0].ColumnIndex)
+                        {
+                            case 0: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress); break;
+                            case 1: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress);  break;    
+                            case 2:
+                            case 3: break;
+                            case 4: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 5: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2); break;
+                            case 6: tb.KeyPress += new KeyPressEventHandler(tb_KeyPress2);break;
+                            
+                        }
+                        break;
+                    }
+            }
+            
+            
+        }
+        private void tb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string vlCell = ((TextBox)sender).Text;
+            bool temp = (vlCell.IndexOf(".") == -1);
+           
+            if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[0].IsInEditMode == true)
+            {
+                if (!char.IsLetter(e.KeyChar) && (e.KeyChar != 8) && !char.IsWhiteSpace(e.KeyChar) && (e.KeyChar != '.'))
+                {
+                    e.Handled = true;
+                    MessageBox.Show("В строке должны быть слова !!!!", "Коректность", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
+        private void tb_KeyPress2(object sender, KeyPressEventArgs e)
+        {
+            if ((!char.IsDigit(e.KeyChar) && (e.KeyChar != 8)) && !((e.KeyChar == ',')))
+            {
+                e.KeyChar = '\0';
+                MessageBox.Show("В строке должны быть цифры !!!!", "Коректность", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
        
