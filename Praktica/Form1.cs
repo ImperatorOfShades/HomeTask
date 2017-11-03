@@ -18,9 +18,10 @@ namespace Praktica
         {
             InitializeComponent();
         }
-        List<Project> URL = new List<Project>();
-        List<Technical_Project> URL_T = new List<Technical_Project>();
-        List<Econom_Project> URL_E = new List<Econom_Project>();
+        public static List<Project> URL = new List<Project>();
+        public static List<Technical_Project> URL_T = new List<Technical_Project>();
+        public static List<Econom_Project> URL_E = new List<Econom_Project>();
+        public static int CountAll = 0, CountT = 0, CountE = 0;
         Form2 Dialog = new Form2();
         string type_project = "all";
         public static int NRec;
@@ -73,7 +74,7 @@ namespace Praktica
             words = new string[20];
             streamR = new StreamReader(openFileDlg.OpenFile());
             string type_project;
-            int CountAll = 0, CountT = 0, CountE = 0;
+            
             while ((input = streamR.ReadLine()) != null)
             {
                 string [] split = input.Split(new Char [] {'\t'});
@@ -86,16 +87,16 @@ namespace Praktica
                 }
 
                 type_project = words[0];
-                Project_Tech[CountT].Name = words[1];
-                Project_Tech[CountT].Client = words[2];
+                Project_All[CountAll].Name = words[1];
+                Project_All[CountAll].Client = words[2];
 
-                Project_Tech[CountT].StartDate = words[3];
-                Project_Tech[CountT].EndDate = words[4];
+                Project_All[CountAll].StartDate = words[3];
+                Project_All[CountAll].EndDate = words[4];
 
-                Project_Tech[CountT].Price =  Decimal.Parse(words[5]);
-                Project_Tech[CountT].Realization = Double.Parse(words[6]);
-                Project_Tech[CountT].Rollback = Double.Parse(words[7]);
-                URL.Add(Project_Tech[CountT]);
+                Project_All[CountAll].Price = Decimal.Parse(words[5]);
+                Project_All[CountAll].Realization = Double.Parse(words[6]);
+                Project_All[CountAll].Rollback = Double.Parse(words[7]);
+                URL.Add(Project_All[CountAll]);
                 CountAll++;
  
                 switch (type_project)
@@ -164,12 +165,36 @@ namespace Praktica
         {
             if (Form2.Buff.adding)
             {
-                URL.RemoveAt((URL.Count)-1);
-                if ((Form2.Buff.possition >= NRec) && (Form2.Buff.possition < 1))
-                    URL.Add(Form2.Buff);
-                else
-                    URL.Insert(Form2.Buff.possition, Form2.Buff);
-                
+                switch (Form2.type_of_project)
+                {
+                    case "t":
+                        URL.RemoveAt((URL.Count)-1);
+                        if ((Form2.Buff.possition >= NRec) && (Form2.Buff.possition < 1))
+                        {
+                            URL.Add(Form2.Buff);
+                            URL_T.Add((Technical_Project)Form2.Buff);
+                        }
+                        else
+                        {
+                            URL.Insert(Form2.Buff.possition, Form2.Buff);
+                            URL_T.Add((Technical_Project)Form2.Buff);
+                        }
+                        break;
+                    case "e": 
+                        URL.RemoveAt((URL.Count) - 1);
+                        if ((Form2.Buff.possition >= NRec) && (Form2.Buff.possition < 1))
+                        {
+                            URL.Add(Form2.Buff);
+                            URL_E.Add((Econom_Project)Form2.Buff);
+                        }
+                        else
+                        {
+                            URL.Insert(Form2.Buff.possition, Form2.Buff);
+                            URL_E.Add((Econom_Project)Form2.Buff);
+                        }
+                        break;
+                }
+             
                 NRec++;
                 stText.Text = "Проект добавлен";
                 Form2.Buff.adding = false;
@@ -253,10 +278,15 @@ namespace Praktica
 
         private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            SortColumn(e.ColumnIndex);
+            switch (type_project)
+            {
+                case "t": SortColumnT(e.ColumnIndex); break;
+                case "e": SortColumnE(e.ColumnIndex); break;
+                case "all": SortColumnAll(e.ColumnIndex); break;
+            }
             stText.Text = "Данные отсортированы";
         }
-        public void SortColumn(int num)
+        public void SortColumnAll(int num)
         {
             switch (num)
             {
@@ -443,7 +473,579 @@ namespace Praktica
                     catch { MessageBox.Show("no sort"); } break;
             }
         }
+        public void SortColumnT(int num)
+        {
+            switch (num)
+            {
+                case 0:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Standart.CompareTo(v1.Standart);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Standart.CompareTo(v2.Standart);
+                            });
+                            sortasc = true;
+                        }
 
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 1:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Techn_Task.CompareTo(v1.Techn_Task);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Techn_Task.CompareTo(v2.Techn_Task);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 2:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Parts.CompareTo(v1.Parts);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Parts.CompareTo(v2.Parts);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 3:
+                   try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Econom_Rating.CompareTo(v1.Econom_Rating);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Econom_Rating.CompareTo(v2.Econom_Rating);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 4:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Quality_rating.CompareTo(v1.Quality_rating);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Quality_rating.CompareTo(v2.Quality_rating);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 5:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Name.CompareTo(v1.Name);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Name.CompareTo(v2.Name);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 6:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Client.CompareTo(v1.Client);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Client.CompareTo(v2.Client);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 7:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.StartDate.CompareTo(v1.StartDate);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.StartDate.CompareTo(v2.StartDate);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 8:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.EndDate.CompareTo(v1.EndDate);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.EndDate.CompareTo(v2.EndDate);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 9:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Price.CompareTo(v1.Price);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Price.CompareTo(v2.Price);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 10:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Realization.CompareTo(v1.Realization);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Realization.CompareTo(v2.Realization);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 11:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v2.Rollback.CompareTo(v1.Rollback);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_T.Sort(delegate(Technical_Project v1, Technical_Project v2)
+                            {
+                                return v1.Rollback.CompareTo(v2.Rollback);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_T;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+            }
+        }
+        public void SortColumnE(int num)
+        {
+            switch (num)
+            {
+                
+                case 1:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Orientation.CompareTo(v1.Orientation);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Orientation.CompareTo(v2.Orientation);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 2:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Project_Complexity.CompareTo(v1.Project_Complexity);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Project_Complexity.CompareTo(v2.Project_Complexity);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 3:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Income.CompareTo(v1.Income);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Income.CompareTo(v2.Income);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 4:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Name.CompareTo(v1.Name);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Name.CompareTo(v2.Name);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+
+                case 5:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Client.CompareTo(v1.Client);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Client.CompareTo(v2.Client);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 6:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.StartDate.CompareTo(v1.StartDate);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.StartDate.CompareTo(v2.StartDate);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 7:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.EndDate.CompareTo(v1.EndDate);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.EndDate.CompareTo(v2.EndDate);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 8:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Price.CompareTo(v1.Price);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Price.CompareTo(v2.Price);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 9:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Realization.CompareTo(v1.Realization);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Realization.CompareTo(v2.Realization);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+                case 10:
+                    try
+                    {
+                        if (sortasc)
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v2.Rollback.CompareTo(v1.Rollback);
+                            });
+                            sortasc = false;
+                        }
+                        else
+                        {
+                            URL_E.Sort(delegate(Econom_Project v1, Econom_Project v2)
+                            {
+                                return v1.Rollback.CompareTo(v2.Rollback);
+                            });
+                            sortasc = true;
+                        }
+
+                        bindingSource1.DataSource = URL_E;
+                        dataGridView1.DataSource = null;
+                        dataGridView1.DataSource = bindingSource1;
+                    }
+                    catch { MessageBox.Show("no sort"); } break;
+            }
+        }
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NRec = 0;
@@ -483,9 +1085,10 @@ namespace Praktica
             
         }
 
-        private void dataGridView1_EditingControlShowing(object sender,   e)
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             TextBox tb = (TextBox)e.Control;
+            
             switch (type_project)
             {
                 case "t": 
@@ -540,27 +1143,27 @@ namespace Praktica
                         break;
                     }
             }
-            
+            tb.Text = "";
             
         }
         private void tb_KeyPress(object sender, KeyPressEventArgs e)
         {
             string vlCell = ((TextBox)sender).Text;
             bool temp = (vlCell.IndexOf(".") == -1);
-           
-            if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[0].IsInEditMode == true)
-            {
-                if (!char.IsLetter(e.KeyChar) && (e.KeyChar != 8) && !char.IsWhiteSpace(e.KeyChar) && (e.KeyChar != '.'))
+
+
+            if (!char.IsLetter(e.KeyChar) && (e.KeyChar != 8) && !char.IsWhiteSpace(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '\0'))
                 {
                     e.Handled = true;
+                    e.KeyChar = '\0';
                     MessageBox.Show("В строке должны быть слова !!!!", "Коректность", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
+            
 
         }
         private void tb_KeyPress2(object sender, KeyPressEventArgs e)
         {
-            if ((!char.IsDigit(e.KeyChar) && (e.KeyChar != 8)) && !((e.KeyChar == ',')))
+            if ((!char.IsDigit(e.KeyChar) && (e.KeyChar != 8)) && !((e.KeyChar == ',')) && (e.KeyChar != '\0'))
             {
                 e.KeyChar = '\0';
                 MessageBox.Show("В строке должны быть цифры !!!!", "Коректность", MessageBoxButtons.OK, MessageBoxIcon.Information);

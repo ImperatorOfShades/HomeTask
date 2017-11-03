@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Praktica
 {
-    class Econom_Project : Project
+    public class Econom_Project : Project
     {
         private bool demand;//есть ли спрос на аналог. проект
         private string orientation;//куда ориентирован проект (импорт/экспорт)

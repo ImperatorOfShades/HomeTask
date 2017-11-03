@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Praktica
 {
-    class Technical_Project : Project
+    public class Technical_Project : Project
     {
         private string standart;//стандарт тех. документации
         private string techn_Task;//техническое задание
