@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelnewprjc = new System.Windows.Forms.Label();
             this.Namelbl = new System.Windows.Forms.Label();
             this.ClientNamelbl = new System.Windows.Forms.Label();
@@ -65,6 +66,7 @@
             this.orient_lbl = new System.Windows.Forms.Label();
             this.complex_cb = new System.Windows.Forms.NumericUpDown();
             this.comlex_lbl = new System.Windows.Forms.Label();
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.PriceTB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RealizTB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RollbackTB)).BeginInit();
@@ -154,6 +156,7 @@
             this.NameTB.Name = "NameTB";
             this.NameTB.Size = new System.Drawing.Size(120, 20);
             this.NameTB.TabIndex = 8;
+            this.toolTip2.SetToolTip(this.NameTB, "Enter Name of new project");
             this.NameTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NameTB_KeyPress);
             // 
             // ClientTB
@@ -162,6 +165,7 @@
             this.ClientTB.Name = "ClientTB";
             this.ClientTB.Size = new System.Drawing.Size(120, 20);
             this.ClientTB.TabIndex = 9;
+            this.toolTip2.SetToolTip(this.ClientTB, "Enter Client name or Organization, who ordered project");
             this.ClientTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ClientTB_KeyPress);
             // 
             // startDateTB
@@ -171,6 +175,7 @@
             this.startDateTB.Name = "startDateTB";
             this.startDateTB.Size = new System.Drawing.Size(120, 20);
             this.startDateTB.TabIndex = 10;
+            this.toolTip2.SetToolTip(this.startDateTB, "Enter the start date for the project");
             // 
             // endDateTB
             // 
@@ -179,6 +184,7 @@
             this.endDateTB.Name = "endDateTB";
             this.endDateTB.Size = new System.Drawing.Size(120, 20);
             this.endDateTB.TabIndex = 11;
+            this.toolTip2.SetToolTip(this.endDateTB, "Enter the end date for the project");
             // 
             // PriceTB
             // 
@@ -191,6 +197,7 @@
             this.PriceTB.Name = "PriceTB";
             this.PriceTB.Size = new System.Drawing.Size(120, 20);
             this.PriceTB.TabIndex = 13;
+            this.toolTip2.SetToolTip(this.PriceTB, "Enter the price (in  UAH) for the project");
             this.PriceTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PriceTB_KeyPress);
             // 
             // RealizTB
@@ -199,6 +206,7 @@
             this.RealizTB.Name = "RealizTB";
             this.RealizTB.Size = new System.Drawing.Size(120, 20);
             this.RealizTB.TabIndex = 14;
+            this.toolTip2.SetToolTip(this.RealizTB, "Enter the value (in %) probability of project implementation on time");
             this.RealizTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RealizTB_KeyPress);
             // 
             // RollbackTB
@@ -207,6 +215,7 @@
             this.RollbackTB.Name = "RollbackTB";
             this.RollbackTB.Size = new System.Drawing.Size(120, 20);
             this.RollbackTB.TabIndex = 15;
+            this.toolTip2.SetToolTip(this.RollbackTB, "Enter the value (in %) of rollback");
             this.RollbackTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RollbackTB_KeyPress);
             // 
             // Addbtn
@@ -215,6 +224,7 @@
             this.Addbtn.Name = "Addbtn";
             this.Addbtn.Size = new System.Drawing.Size(75, 23);
             this.Addbtn.TabIndex = 16;
+            this.Addbtn.Tag = "";
             this.Addbtn.Text = "Add";
             this.Addbtn.UseVisualStyleBackColor = true;
             this.Addbtn.Click += new System.EventHandler(this.Addbtn_Click);
@@ -230,6 +240,7 @@
             this.posTB.Name = "posTB";
             this.posTB.Size = new System.Drawing.Size(120, 20);
             this.posTB.TabIndex = 18;
+            this.toolTip2.SetToolTip(this.posTB, "Enter the position in the table on which you want to put the New Project");
             this.posTB.Value = new decimal(new int[] {
             1,
             0,
@@ -280,6 +291,7 @@
             this.E_R_CB.Name = "E_R_CB";
             this.E_R_CB.Size = new System.Drawing.Size(120, 20);
             this.E_R_CB.TabIndex = 22;
+            this.toolTip2.SetToolTip(this.E_R_CB, "Enter the value (in UAH), the economic valuation of the product");
             this.E_R_CB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.E_R_CB_KeyPress);
             // 
             // econom_rat_lbl
@@ -297,6 +309,7 @@
             this.parts_cb.Name = "parts_cb";
             this.parts_cb.Size = new System.Drawing.Size(120, 20);
             this.parts_cb.TabIndex = 24;
+            this.toolTip2.SetToolTip(this.parts_cb, "Enter the number of parts that make up the project");
             this.parts_cb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.parts_cb_KeyPress);
             // 
             // parts_lbl
@@ -314,6 +327,7 @@
             this.Q_r_tb.Name = "Q_r_tb";
             this.Q_r_tb.Size = new System.Drawing.Size(120, 20);
             this.Q_r_tb.TabIndex = 26;
+            this.toolTip2.SetToolTip(this.Q_r_tb, "Enter a qualitative assessment of the future product (Normal, Good, Well, Best)");
             this.Q_r_tb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Q_r_tb_KeyPress);
             // 
             // qual_lbl
@@ -332,6 +346,7 @@
             this.techn_task_tb.Name = "techn_task_tb";
             this.techn_task_tb.Size = new System.Drawing.Size(120, 20);
             this.techn_task_tb.TabIndex = 30;
+            this.toolTip2.SetToolTip(this.techn_task_tb, "Enter the name and number of the technical project");
             // 
             // standart_tb
             // 
@@ -339,6 +354,7 @@
             this.standart_tb.Name = "standart_tb";
             this.standart_tb.Size = new System.Drawing.Size(120, 20);
             this.standart_tb.TabIndex = 29;
+            this.toolTip2.SetToolTip(this.standart_tb, "Enter the standard according to which the project will be executed");
             // 
             // Tecn_task_lbl
             // 
@@ -367,6 +383,7 @@
             this.dem_cb.Size = new System.Drawing.Size(66, 17);
             this.dem_cb.TabIndex = 31;
             this.dem_cb.Text = "Demand";
+            this.toolTip2.SetToolTip(this.dem_cb, "Specify whether there is a demand for similar products");
             this.dem_cb.UseVisualStyleBackColor = true;
             this.dem_cb.Visible = false;
             // 
@@ -381,6 +398,7 @@
             this.income_tb.Name = "income_tb";
             this.income_tb.Size = new System.Drawing.Size(120, 20);
             this.income_tb.TabIndex = 33;
+            this.toolTip2.SetToolTip(this.income_tb, "Enter the amount (in UAH) of the annual income");
             this.income_tb.Visible = false;
             // 
             // income_lbl
@@ -395,10 +413,11 @@
             // 
             // orient_tb
             // 
-            this.orient_tb.Location = new System.Drawing.Point(168, 365);
+            this.orient_tb.Location = new System.Drawing.Point(168, 366);
             this.orient_tb.Name = "orient_tb";
             this.orient_tb.Size = new System.Drawing.Size(120, 20);
             this.orient_tb.TabIndex = 35;
+            this.toolTip2.SetToolTip(this.orient_tb, "Who is the end product oriented to?");
             this.orient_tb.Visible = false;
             // 
             // orient_lbl
@@ -414,10 +433,11 @@
             // 
             // complex_cb
             // 
-            this.complex_cb.Location = new System.Drawing.Point(168, 393);
+            this.complex_cb.Location = new System.Drawing.Point(168, 394);
             this.complex_cb.Name = "complex_cb";
             this.complex_cb.Size = new System.Drawing.Size(120, 20);
             this.complex_cb.TabIndex = 37;
+            this.toolTip2.SetToolTip(this.complex_cb, "The complexity of the project (in%)");
             this.complex_cb.Visible = false;
             // 
             // comlex_lbl
@@ -527,5 +547,6 @@
         private System.Windows.Forms.Label comlex_lbl;
         public System.Windows.Forms.RadioButton TechnRadioButton;
         public System.Windows.Forms.RadioButton EconomicRadioButton;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }

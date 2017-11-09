@@ -26,15 +26,15 @@ namespace Praktica
         string type_project = "all";
         public static int NRec;
         bool sortasc;
-        bool first = true;
+        //bool first = true;
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!first)
+            /*if (!first)
             {
                 MessageBox.Show("Ошибка. Файл уже открыт!");
                 return;
             }
-            first = false;
+            first = false;*/
             string[] words;
             OpenFileDialog openFileDlg = new OpenFileDialog();
             openFileDlg.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -49,6 +49,9 @@ namespace Praktica
             stText.Text = "Файл отрыт";
             sortasc = false;
             NRec = 0;
+            CountAll = 0;
+            CountT = 0;
+            CountE = 0;
             String input;
             while ((input = streamR.ReadLine()) != null)
                 NRec++;
@@ -236,8 +239,14 @@ namespace Praktica
 
         private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
         {
-            NRec--;
-            stText.Text = "Проект удален";
+            try
+            {
+                int c = dataGridView1.SelectedCells[0].ColumnIndex-1;
+                string s = (string)dataGridView1.SelectedCells[0].Value;
+                NRec--;
+                stText.Text = "Проект удален";
+            }
+            catch {  }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1049,9 +1058,10 @@ namespace Praktica
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NRec = 0;
-            first = true;
 
             URL.Clear();
+            URL_E.Clear();
+            URL_T.Clear();
             bindingSource1.DataSource = null;
             dataGridView1.DataSource = null;
 

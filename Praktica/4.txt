@@ -1,0 +1,4 @@
+t	Spark	Blackberry	2016.08.22	2019.09.02	100500	93	17	28300	Better	ISO_9001	7.32	4
+t	Protext	Pumba	2015.06.13	2017.12.21	78500	87	6	12250	Well	ISO_9015	5.17	3
+e	Textprom	Urbanium	2015.10.17	2018.03.17	15000	95	11	false	import	17	2800
+e	Magictext	Enotus	2016.12.10	2017.12.12	18000	85	14	true	export	21	5500

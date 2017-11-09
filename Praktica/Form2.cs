@@ -51,11 +51,7 @@ namespace Praktica
             Buff.adding = true;
             Buff.possition = (Convert.ToInt32(posTB.Value)) - 1;
             this.Hide();
-            //Form1.URL.Add(Buff);
-            //if (EconomicRadioButton.Checked)
-            //    Form1.URL_E.Add(Buff);
-            //if (TechnRadioButton.Checked)
-            //    Form1.URL_T.Add(Buff);
+            
             
         }
 
